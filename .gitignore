@@ -217,3 +217,9 @@ __marimo__/
 # Streamlit
 .streamlit/secrets.toml
 date/raw/가 있다(원본 데이터가 올라가지 않도록)
+
+# Raw Data Exclusion
+*.sav
+*.csv
+*.sas7bdat
+hdac_data/

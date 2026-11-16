@@ -1,22 +1,27 @@
-# Team 5 - DAG 기반 보정집합 설계 및 변수 분류
+# 11주차 팀 과제: DAG 기반 모형 설계 및 복합표본 로지스틱 회귀분석
 
 ## 1. 연구 질문 및 추정 목표
-- **노출 (X)**: 규칙적 운동 수행 여부 (`exercise`, 1: 비운동군, 2: 규칙적 운동군)
-- **결과 (Y)**: 고혈압 유병 여부 (`htn`, 0: 정상, 1: 고혈압)
-- **추정 목표**: 규칙적 운동이 고혈압 유병에 미치는 **총효과(Total Effect)** 추정
+- **자료명**: 2025년 제21차 청소년건강행태조사 원시자료 ($N = 54,170$, 고등학생 도메인 $n = 25,077$)
+- **노출 ($X$)**: 아침식사 결식 여부 (`bf_skip`, 0: 주 0–4회 결식, 1: 주 5회 이상 결식)
+- **결과 ($Y$)**: 비만 유병 여부 (`obesity`, 0: $BMI < 25\ kg/m^2$, 1: $BMI \ge 25\ kg/m^2$)
+- **추정 목표**: 대한민국 고등학생에서 아침식사 결식이 비만 유병에 미치는 **총효과(Total Effect)** 추정
 
 ---
 
-## 2. DAG (인과방향도)
+## 2. DAG (인과방향도) 및 변수 분류
+
+### (1) DAG 구조
 ```text
-age -> exercise
-age -> htn
-sex -> exercise
-sex -> htn
-income -> exercise
-income -> htn
-smk -> htn
-drink -> htn
-exercise -> bmi
-bmi -> htn
-exercise -> htn
+SEX (성별) -> bf_skip (아침식사 결식)
+SEX (성별) -> obesity (비만 유병)
+GRADE (학년) -> bf_skip (아침식사 결식)
+GRADE (학년) -> obesity (비만 유병)
+E_SES (주관적 경제상태) -> bf_skip (아침식사 결식)
+E_SES (주관적 경제상태) -> obesity (비만 유병)
+
+bf_skip (아침식사 결식) -> M_SLP_EN (수면충족감) -> obesity (비만 유병)
+bf_skip (아침식사 결식) -> PA_TOT (신체활동 실천) -> obesity (비만 유병)
+bf_skip (아침식사 결식) -> F_NE (야식 섭취) -> obesity (비만 유병)
+
+bf_skip (아침식사 결식) -> obesity (비만 유병)
+obesity (비만 유병) -> WC_MN (체중 조절 시도)  [역방향 인과 경로]
